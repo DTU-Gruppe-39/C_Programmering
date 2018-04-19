@@ -73,7 +73,7 @@ int overlaps(int i, int j, struct segment current, struct segment other) {
     if(current.x1 > other.x2 || current.x2 < other.x1) {
        return overlap;
     } else {
-          if(current.y1 < other.y1 || current.y2 < other.y2){
+          if(current.y1 > other.y1 || current.y2 > other.y2){   //Make a better check
               return overlap;
           } else {
 
