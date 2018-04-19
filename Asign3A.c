@@ -52,6 +52,10 @@ int main(void) {
 
     for(int i = 0; i < segNum; i++){
       array[i].water = array[i].x2 - array[i].x1;
+    }
+
+    for(int i = 0; i < segNum; i++){
+      // array[i].water = array[i].x2 - array[i].x1;       //Look above
       for(int j = 0; j < segNum; j++){
           if (i != j) {
               if(overlaps(i, j, array[i], array[j]) ) {
@@ -67,6 +71,33 @@ int main(void) {
 }
 
 
+//##############################################################################
+//# I think the problem is that not all roofs have a value yet when trying to transfer the water
+//# Maybe initialize alle water values before trying to transfer
+//#
+//#
+//# Segment 3
+//# 5 5 9 3
+//# Water is 13
+//# Is off by 2
+//#
+//#
+//#
+//#
+//# Roof 1 7 5 6 is transfered before it has it own overlap calculated, so it
+//# transfers to much water
+//#
+//#
+//# Check if for water transfer whether it should be < or <= if x align
+//#
+//#
+//#
+//#
+//# Also needs to make sure that a partially covered roof only transfers water equal to the uncovered part
+//# Maybe change order roofs are processed from top to buttom, instead of first to last input
+//##############################################################################
+
+
 int overlaps(int i, int j, struct segment current, struct segment other) {
     int overlap = 0;
 
@@ -80,7 +111,8 @@ int overlaps(int i, int j, struct segment current, struct segment other) {
               //j   ---
               //i -------
               if(current.x1 < other.x1 && current.x2 > other.x2) {
-                  overlap = other.water;
+                  // overlap = other.water;
+                  overlap = 0;                      //@@@Since it doesn't matter what side the water falls
                   return overlap;
               } else if(current.x1 > other.x1 && current.x2 < other.x2){
                   //j --------
@@ -90,12 +122,23 @@ int overlaps(int i, int j, struct segment current, struct segment other) {
               } else if(current.x1 > other.x1 && current.x2 > other.x2){
                   //j ------
                   //i     ------
-                      overlap = other.x2 - current.x1;
+                      // overlap = other.x2 - current.x1;
+                      if (other.y1 > other.y2) {    //@@@
+                        printf("%s%d%s%d\n", "Current water er: ", current.water, " other water er: ", other.water );
+                        overlap = (-other.water);
+                      } else {
+                        overlap = other.x2 - current.x1;
+                      }
                       return overlap;
               } else {
                   //j    ------
                   //i ------
-                      overlap = current.x2 - other.x1;
+                      // overlap = current.x2 - other.x1;
+                      if (other.y1 < other.y2) {
+                        overlap = (-other.water);
+                      } else {
+                        overlap = current.x2 - other.x1;
+                      }
                       return overlap;
               }
           }
