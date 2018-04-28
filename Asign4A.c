@@ -20,7 +20,7 @@ char ch;
       exit(EXIT_FAILURE);
    }
 
-   printf("The contents of the file are:\n");
+   //printf("The contents of the file are:\n");
 
    ch = fgetc(fp);
    fseek(fp, 0, SEEK_SET);
@@ -44,7 +44,7 @@ char ch;
       exit(EXIT_FAILURE);
    }
 
-   printf("The contents of the file are:\n");
+   //printf("The contents of the file are:\n");
 
    time_t rawtime;
    struct tm * timeinfo;
@@ -53,7 +53,7 @@ char ch;
    time (&rawtime);
    timeinfo = localtime (&rawtime);
 
-   strftime (buffer,80,"%F %X",timeinfo);
+   strftime (buffer,80,"%F %X\n",timeinfo);
    fputs(buffer, fp);
 
    fclose(fp);
