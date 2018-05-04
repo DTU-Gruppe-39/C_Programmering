@@ -5,8 +5,45 @@
 
 int main(void) {
 
-char ch;
+char ch[6];
    FILE *fp;
+   int len;
+   char fileName[39];
+   time_t rawtime;
+   struct tm * timeinfo;
+   char buffer [80];
+
+   /****************************************************************************
+   Create file if not exits
+   ****************************************************************************/
+
+   //%B month
+   //%Y year
+   time (&rawtime);
+   timeinfo = localtime (&rawtime);
+   strftime (buffer,80,"%Y%B",timeinfo);
+   printf(buffer);
+   printf("\n");
+
+   sprintf(fileName, "C_Programmering/log%s.txt", buffer);
+   printf(fileName);
+
+   fp = fopen(fileName, "ab+");
+
+   if (fp == NULL)
+   {
+      perror("Error while opening the file.\n");
+      exit(EXIT_FAILURE);
+   }
+   len = ftell(fp);
+   printf("\n%d\n", len);
+   //ch = fgetc(fp);
+   if (len == 0) {
+     fputc('0', fp);
+   }
+
+   fclose(fp);
+
 
    /****************************************************************************
    Edit the first line of the file, aka the number of activities
@@ -20,13 +57,10 @@ char ch;
       exit(EXIT_FAILURE);
    }
 
-   //printf("The contents of the file are:\n");
-
-   ch = fgetc(fp);
+   fgets(ch, 6, fp);
+   sprintf(ch, "%d", (atoi(ch) + 1));
    fseek(fp, 0, SEEK_SET);
-   fputc((ch + 1), fp);
-   //printf("%c", ch);
-
+   fputs(ch, fp);
 
    fclose(fp);
 
@@ -43,12 +77,6 @@ char ch;
       perror("Error while opening the file.\n");
       exit(EXIT_FAILURE);
    }
-
-   //printf("The contents of the file are:\n");
-
-   time_t rawtime;
-   struct tm * timeinfo;
-   char buffer [80];
 
    time (&rawtime);
    timeinfo = localtime (&rawtime);
