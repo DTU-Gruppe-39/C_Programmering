@@ -62,8 +62,7 @@ for(int j = 0; j < 100; j++){
 
       if(c == '\n'){
         printf("%d\n", j);
-        //make doubly list
-        //check what breakpoint is the max pearls
+
         break;
       }
     }
