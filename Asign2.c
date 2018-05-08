@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void goldbach(int n);
 
 int main() {
 
@@ -48,18 +49,22 @@ int main() {
 printf("\nNumber of nodes in the original list = %d\n", count);
 
 printf("These values can't be the sum of two primes: \n");
+goldbach(keep);
 
-	for(int i = 1; i < keep; i++){
-		if (i < keep && i < 4){
-      printf("%d ", i);
+}
+
+void goldbach(int n){
+    for(int i = 1; i < n; i++){
+      if (i < n && i < 4){
+        printf("%d ", i);
+      }
+      if (i % 2 != 0){
+        for(int j = 2; j < i - 2; j++){
+          if(((i - 2) % j) == 0){
+            printf("%d ", i);
+            break;
+          }
+        }
+      }
     }
-		if (i % 2 != 0){
-			for(int j = 2; j < i - 2; j++){
-				if(((i - 2) % j) == 0){
-					printf("%d ", i);
-					break;
-				}
-			}
-		}
-	}
 }
