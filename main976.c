@@ -70,7 +70,7 @@ int checkBack(char input[], int index){
 
     while (1){
         index--;
-        if (index < 0){
+        if (index <= 0){
             index = strlen(input)-1;
         }
         if ((input[index] == original) == 1){

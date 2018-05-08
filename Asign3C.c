@@ -34,7 +34,7 @@ int main() {
         }
     }
   //Append the output text to the outfile
-  fprintf(outFile, "%d between %d and %d \n\n", highestColor, highestColorIndex + 1, highestColorIndex + 2);
+  fprintf(outFile, "%d between %d and %d + %d\n\n", highestColor, highestColorIndex + 1, highestColorIndex + 2, strlen(pearls));
   }
 fclose(infile);
 fclose(outFile);
@@ -52,18 +52,20 @@ int left(char pearls[], int i){
 
   while (1){
     i--;
-    // if (i < 0){
-    //   i = strlen(pearls) - 1;
-    // }
+    if (i < 0){
+      i = strlen(pearls) - 1;
+    }
     if (pearls[i] == original){
       color++;
-    } else if(pearls[i] == 'w'){
-        color++;
-      } else {
+    } else {
+        if(pearls[i] == 'w'){
+            color++;
+        } else {
             break;
         }
+      }
     }
-    return color;
+  return color;
 }
 
 int right(char pearls[], int i){
@@ -72,17 +74,19 @@ int right(char pearls[], int i){
   int color = 1;
 
   while (1) {
-      // i++;
+      i++;
       if (i >= strlen(pearls) - 1){
         i = 0;
       }
       if (pearls[i] == original){
         color++;
-      } else if (pearls[i] == 'w'){
-          color++;
+      } else {
+         if (pearls[i] == 'w'){
+            color++;
         } else {
             break;
         }
+      }
     }
   return color;
 }
