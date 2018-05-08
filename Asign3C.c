@@ -1,103 +1,88 @@
 #include <stdio.h>
-#include <memory.h>
 #include <string.h>
 
-int Backward(char pearls[], int index);
-int Forward(char pearls[], int index);
-char readFile();
+//Declare the methods to the compiler
+int left(char pearls[], int i);
+int right(char pearls[], int i);
 
 int main() {
-    //Define the files to be opened.
-    FILE *infile, *outFile;
+  //We define infile and outfile to the type FILE and array with type char that contains 100 indices
+  FILE *infile, *outFile;
+  char pearls[100];
 
-    //Make a buffer array to contain stuff from the file i'm reading from
-    char pearls[100];
+  //Read and write to our DAT and SOL.
+  infile = fopen("NECKLACE.DAT", "r");
+  outFile = fopen("NECKLACE.SOL", "w");
 
-    //Read necklace and write it to our output file.
-    infile = fopen("NECKLACE.DAT", "r");
-    outFile = fopen("NECKLACE.SOL", "w");
+  //Reads lines in infile until null
+  while (fgets(pearls, sizeof(pearls), infile) != NULL){
 
-    //Iterate through the lines in the file
-    while (fgets(pearls, sizeof(pearls), infile) != NULL){
-        //Define the current file
-  //      pearls[strlen(pearls)] = '\0';
+    //Prints pearl color to outfile
+    fprintf(outFile, "%s", pearls);
 
-        //Print the current data to the outputfile
-        fprintf(outFile, "%s", pearls);
+    //Defines int type variables
+    int highestColor = 0, highestColorIndex = 0, checkedPearl = 0;
+    //loops from 0 to the length of the string/pearls in the neclace
+    for (int i = 0; i < strlen(pearls); ++i) {
+      //
+      checkedPearl = left(pearls, i) + right(pearls, i);
 
-        //Define variables to be used
-        int highest = 0, HighestIndex = 0, checkedPearl = 0, sizeOnArray = 0;
-        //Loop through the char array, and check forward and backwards
-        for (int i = 0; i < strlen(pearls); ++i) {
-            //Get the count backwards and forward
-            checkedPearl = Backward(pearls, i) + Forward(pearls, i);
-
-            //Check if it is now the highest count
-            if (checkedPearl > highest){
-                highest = checkedPearl;
-                HighestIndex = i;
-            }
-            sizeOnArray++;
-
+        //Check if it is now the highest color
+        if (checkedPearl > highestColor){
+          highestColor = checkedPearl;
+          highestColorIndex = i;
         }
-             printf("%d ", sizeOnArray-1);
-        //Append the output text to the outfile
-        fprintf(outFile, "%d between %d and %d + %d\n\n", highest, HighestIndex+1, HighestIndex+2, strlen(pearls));
     }
-
-    //Close the files
-    fclose(infile);
-    fclose(outFile);
-
-
-    return 0;
+  //Append the output text to the outfile
+  fprintf(outFile, "%d between %d and %d \n\n", highestColor, highestColorIndex + 1, highestColorIndex + 2);
+  }
+fclose(infile);
+fclose(outFile);
+return 0;
 }
 
+/*******************************************************************************
+Below are the methods for going to the left and right of the necklace.DAT file.
+They check if the pearl-color to the right and left is similar to the original
+or if it is 'w'
+*******************************************************************************/
+int left(char pearls[], int i){
+  char original = pearls[i];
+  int color = 1;
 
-//A method to check backwards and return the count backwards
-int Backward(char pearls[], int index){
-    char original = pearls[index];
-    int count = 1;
-
-    while (1){
-        index--;
-        if (pearls[index] == original){
-            count++;
-        } else {
-            if(pearls[index] == 'w'){
-                count++;
-            } else {
-                break;
-            }
+  while (1){
+    i--;
+    // if (i < 0){
+    //   i = strlen(pearls) - 1;
+    // }
+    if (pearls[i] == original){
+      color++;
+    } else if(pearls[i] == 'w'){
+        color++;
+      } else {
+            break;
         }
     }
-
-    return count;
+    return color;
 }
 
-//A method to check forward and return the count
-int Forward(char pearls[], int index){
-    index++;
-    char original = pearls[index];
-    int count = 1;
+int right(char pearls[], int i){
+  i++;
+  char original = pearls[i];
+  int color = 1;
 
-    while (1) {
-        index++;
-        if (index >= strlen(pearls) - 1){
-            index = 0;
-            // count++;
-        }
-        if (pearls[index] == original){
-            count++;
+  while (1) {
+      // i++;
+      if (i >= strlen(pearls) - 1){
+        i = 0;
+      }
+      if (pearls[i] == original){
+        color++;
+      } else if (pearls[i] == 'w'){
+          color++;
         } else {
-            if(pearls[index] == 'w'){
-                count++;
-
-            } else {
-                break;
-            }
+            break;
         }
     }
-
-    return count;
+  return color;
 }
