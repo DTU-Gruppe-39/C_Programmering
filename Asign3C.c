@@ -34,7 +34,7 @@ int main() {
         }
     }
   //Append the output text to the outfile
-  fprintf(outFile, "%d between %d and %d + %d\n\n", highestColor, highestColorIndex + 1, highestColorIndex + 2, strlen(pearls));
+  fprintf(outFile, "%d between %d and %d\n\n", highestColor, highestColorIndex + 1, highestColorIndex + 2);
   }
 fclose(infile);
 fclose(outFile);
