@@ -1,23 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct node {
-  int data;
-  struct node *next;
-};
-
 
 int main() {
 
-  struct node
-  {
-  int data;
-  struct node *next; // pointer points to the next member of the list
-  }; typedef struct node NODE;
-  NODE *current, *first =NULL, *temp=NULL;
   int count = 0;
-
-
   int num = 1, keep = 0;
   int even = 0, odd = 0;
   int totalEven = 0, totalOdd = 0;
